@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>चल बता सच्चाई — क्या तू सूअर है? 🐷😜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 35px 25px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+        
+        h1 {
+            color: #ff5252;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            margin-bottom: 15px;
+            line-height: 1.3;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .heart {
+            display: inline-block;
+            animation: pulse 1.8s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+        }
+        
+        p {
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            color: #5a5a5a;
+            margin: 15px 0 25px;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+        
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            position: relative;
+            min-height: 60px;
+        }
+        
+        .btn {
+            padding: 14px 36px;
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        
+        .yes-btn {
+            background: linear-gradient(to right, #ff5252, #ff7b7b);
+            color: white;
+        }
+        
+        .yes-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+        }
+        
+        .no-btn {
+            background: linear-gradient(to right, #4db6ac, #80cbc4);
+            color: white;
+            position: static;
+            z-index: 5;
+        }
+        
+        .message {
+            margin-top: 25px;
+            font-size: clamp(1.1rem, 3.5vw, 1.35rem);
+            color: #ff5252;
+            font-weight: 600;
+            min-height: 50px;
+            padding: 0 10px;
+        }
+        
+        .final-message {
+            font-size: clamp(1.6rem, 5vw, 2.2rem);
+            color: #ff5252;
+            margin-top: 25px;
+            animation: fadeIn 0.8s ease;
+            line-height: 1.4;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart-icon {
+            position: absolute;
+            color: rgba(255, 82, 82, 0.6);
+            font-size: clamp(18px, 4vw, 28px);
+            animation: float 8s infinite ease-in;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 82, 82, 0.2);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            color: #ff5252;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <h1>चल बता सच्चाई — क्या तू सूअर है? 🐷😜 <span class="heart">🐷</span></h1>
+        <p>मुझे पता है तुम हो... लेकिन सिर्फ़ पक्का करने के लिए!</p>
+        
+        <div class="buttons-container" id="buttonsContainer">
+            <button class="btn yes-btn" id="yesBtn">Yes! 🐷</button>
+            <button class="btn no-btn" id="noBtn">No 😢</button>
+        </div>
+        
+        <div class="message" id="message"></div>
+        
+        <div class="footer">Made for AT with ❤️ from RP</div>
+    </div>
+
+    <script>
+        // Create floating hearts/pigs
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const count = window.innerWidth < 600 ? 15 : 30;
+            for (let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '🐷';
+                heart.classList.add('heart-icon');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 6 + 5) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (Math.random() * 16 + 18) + 'px';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Move "No" button to random position INSIDE the container
+        function moveNoButton() {
+            const noBtn = document.getElementById('noBtn');
+            const container = document.querySelector('.container');
+            
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Account for container padding (35px top/bottom, 25px left/right)
+            const paddingX = 25;
+            const paddingY = 35;
+            
+            const maxX = containerRect.width - btnRect.width - 2 * paddingX;
+            const maxY = containerRect.height - btnRect.height - 2 * paddingY;
+            
+            if (maxX <= 0 || maxY <= 0) return;
+            
+            const randomX = Math.max(paddingX, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(paddingY, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.position = 'absolute';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.transform = 'none';
+        }
+
+        function showFinalMessage() {
+            const container = document.querySelector('.container');
+            container.innerHTML = `
+                <h1>Yay! ❤️</h1>
+                <div class="final-message">Ahh! I knew it! तुम तो सूअर हो! 🐷</div>
+                <div style="margin-top: 25px; font-size: clamp(1rem, 3.5vw, 1.25rem); color: #5a5a5a; line-height: 1.6;">
+                    Congratulations! तू अब Official Pig of the Year बन चुका है 🏆🐷
+                </div>
+                <div class="footer">Made for AT with ❤️ from RP</div>
+            `;
+        }
+
+        // Show intermediate screen after first "No" click
+        function showIntermediateScreen() {
+            const container = document.querySelector('.container');
+            container.innerHTML = `
+                <h1>अरे रुक जा! 🤔 <span class="heart">🐷</span></h1>
+                <p style="font-size: clamp(1.1rem, 3.5vw, 1.35rem); color: #ff5252; font-weight: 600; margin: 20px 0;">
+                    No दबाने से सच्चाई नहीं बदलती भाई… तुझमें वो सूअर वाला glow साफ़ दिख रहा है 🐷😂
+                </p>
+                <p style="margin-top: 15px;">
+                    चल फिर से बता, क्या तू सूअर है? Confirm कर ले!
+                </p>
+                
+                <div class="buttons-container" id="buttonsContainer">
+                    <button class="btn yes-btn" id="yesBtn">Yes! 🐷</button>
+                    <button class="btn no-btn" id="noBtn">No 😢</button>
+                </div>
+                
+                <div class="message" id="message"></div>
+                <div class="footer">Made for AT with ❤️ from RP</div>
+            `;
+            
+            // Make container relative for absolute positioning
+            container.style.position = 'relative';
+            
+            // Add event listeners for the new screen
+            document.getElementById('yesBtn').addEventListener('click', showFinalMessage);
+            
+            // Now the "No" button will move on hover
+            const noBtn = document.getElementById('noBtn');
+            noBtn.addEventListener('mouseover', moveNoButton);
+            noBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                moveNoButton();
+            });
+        }
+
+        // Handle first "No" click - show intermediate screen
+        function handleFirstNoClick() {
+            showIntermediateScreen();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+            document.getElementById('yesBtn').addEventListener('click', showFinalMessage);
+            document.getElementById('noBtn').addEventListener('click', handleFirstNoClick);
+        });
+    </script>
+</body>
+</html>
